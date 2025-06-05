@@ -1,54 +1,33 @@
-# React + TypeScript + Vite
+# 📱 Real-Time Chat App — Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the frontend of a real-time chat application built with the MERN stack. It uses **React**, **Zustand** for state management, **Tailwind CSS** with **DaisyUI** for styling, and **React Router DOM** for client-side routing. The app enables real-time messaging functionality using **Socket.IO**, offering a seamless experience similar to Messenger.
 
-Currently, two official plugins are available:
+## ✨ Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- ⚛️ **React** – Component-based UI development  
+- 🐻 **Zustand** – Lightweight and scalable state management  
+- 🎨 **Tailwind CSS** + 🌼 **DaisyUI** – Utility-first styling with ready-made UI components  
+- 🌐 **React Router DOM** – Client-side routing  
+- 🔌 **Socket.IO** – Real-time bidirectional communication
 
-## Expanding the ESLint configuration
+## 🔧 Features
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- 💬 Real-time messaging with WebSockets  
+- 📱 Responsive and modern UI  
+- 🧩 Scalable and modular frontend architecture  
+- 🛠️ Easy-to-extend component and state structure
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## 🚀 Getting Started
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Prerequisites
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- Node.js and npm installed
+- Backend server running (Socket.IO server)
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+### Installation
+
+```bash
+git clone https://github.com/your-username/your-repo-name.git
+cd your-repo-name
+npm install
+
