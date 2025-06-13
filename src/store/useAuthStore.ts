@@ -11,7 +11,8 @@ type AuthState = {
     isLoggingIn: boolean;
     isUpdatingProfile: boolean;
     checkAuth: () => Promise<void>;
-    signup: (data: SignUpData) => Promise<void> 
+    signup: (data: SignUpData) => Promise<void>;
+    logout: () => Promise<void>
 }
 
 export const useAuthStore = create<AuthState>((set)=> ({
@@ -45,6 +46,18 @@ export const useAuthStore = create<AuthState>((set)=> ({
             }
         }finally{
             set({isSigningUp: false})
+        }
+    },
+
+    logout: async () => {
+        try {
+            await axioInstance.post("/auth/logout");
+            set({authUser: null})
+            toast.success("Logged out successfully")
+        } catch (error) {
+            if(error instanceof AxiosError){
+                toast.error(error.response?.data)
+            }
         }
     }
 }))
