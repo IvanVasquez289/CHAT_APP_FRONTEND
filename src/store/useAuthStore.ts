@@ -1,17 +1,18 @@
 import { create } from "zustand";
 import { axioInstance } from "../lib/axios";
-import type { SignUpData } from "../types";
+import type { AuthUser, LoginData, SignUpData } from "../types";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
 
 type AuthState = {
-    authUser: string | null;
+    authUser: AuthUser | null;
     isCheckingAuth: boolean;
     isSigningUp: boolean;
     isLoggingIn: boolean;
     isUpdatingProfile: boolean;
     checkAuth: () => Promise<void>;
     signup: (data: SignUpData) => Promise<void>;
+    login: (data: LoginData) => Promise<void>;
     logout: () => Promise<void>
 }
 
@@ -27,7 +28,7 @@ export const useAuthStore = create<AuthState>((set)=> ({
             const res = await axioInstance.get("/auth/check");
             set({authUser: res.data})
         } catch (error) {
-            console.error("Error checking authentication:", error);
+            console.log("Error checking authentication:", error);
             set({authUser: null});
         }finally{
             set({isCheckingAuth: false});
@@ -58,6 +59,23 @@ export const useAuthStore = create<AuthState>((set)=> ({
             if(error instanceof AxiosError){
                 toast.error(error.response?.data)
             }
+        }
+    },
+    login: async (data: LoginData) => {
+        set({isLoggingIn: true})
+        try {
+            const res = await axioInstance.post("/auth/login", data)
+            set({authUser: res.data})
+            toast.success("Logged in successfully")
+        } catch (error) {
+            if(error instanceof AxiosError){
+                const {response, status} = error
+                if([404,401,500].includes(status!)){
+                    toast.error(response?.data)
+                }
+            }
+        }finally{
+            set({isLoggingIn: false})
         }
     }
 }))
