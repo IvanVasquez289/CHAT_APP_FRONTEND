@@ -42,8 +42,9 @@ export const useAuthStore = create<AuthState>((set)=> ({
             set({authUser: res.data})
             toast.success("Account created successfully")
         } catch (error) {
-            if(error instanceof AxiosError && error.response?.status === 409){
+            if(error instanceof AxiosError && error.response?.status !== 400){
                 toast.error("User already exists")
+                console.log(error.response?.data.message)
             }
         }finally{
             set({isSigningUp: false})
@@ -57,7 +58,7 @@ export const useAuthStore = create<AuthState>((set)=> ({
             toast.success("Logged out successfully")
         } catch (error) {
             if(error instanceof AxiosError){
-                toast.error(error.response?.data)
+                toast.error(error.response?.data.message)
             }
         }
     },
@@ -70,9 +71,10 @@ export const useAuthStore = create<AuthState>((set)=> ({
         } catch (error) {
             if(error instanceof AxiosError){
                 const {response, status} = error
-                if([404,401,500].includes(status!)){
-                    toast.error(response?.data)
+                if(status !== 400){
+                    toast.error(response?.data.message)
                 }
+                console.log(response?.data.message)
             }
         }finally{
             set({isLoggingIn: false})
