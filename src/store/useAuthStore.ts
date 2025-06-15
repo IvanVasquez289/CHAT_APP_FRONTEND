@@ -13,7 +13,8 @@ type AuthState = {
     checkAuth: () => Promise<void>;
     signup: (data: SignUpData) => Promise<void>;
     login: (data: LoginData) => Promise<void>;
-    logout: () => Promise<void>
+    logout: () => Promise<void>;
+    updateProfile: (profilePic: string) => Promise<void>;
 }
 
 export const useAuthStore = create<AuthState>((set)=> ({
@@ -78,6 +79,18 @@ export const useAuthStore = create<AuthState>((set)=> ({
             }
         }finally{
             set({isLoggingIn: false})
+        }
+    },
+    updateProfile: async (profilePic: string) => {
+        set({isUpdatingProfile: true})
+        try {
+            const res = await axioInstance.put("/auth/update-profile", {profilePic})
+            set({authUser: res.data})
+            toast.success("Profile updated successfully")
+        } catch (error) {
+            if(error instanceof AxiosError){
+                toast.error(error.response?.data.message)
+            }
         }
     }
 }))
