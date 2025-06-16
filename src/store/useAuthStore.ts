@@ -89,8 +89,14 @@ export const useAuthStore = create<AuthState>((set)=> ({
             toast.success("Profile updated successfully")
         } catch (error) {
             if(error instanceof AxiosError){
-                toast.error(error.response?.data.message)
+                toast.error(error.message)
+                console.log(error.response?.data.message)
+                if(error.code === "ERR_NETWORK"){
+                    toast.error("Image upload failed, try another image")
+                }
             }
+        }finally{
+            set({isUpdatingProfile: false})
         }
     }
 }))
