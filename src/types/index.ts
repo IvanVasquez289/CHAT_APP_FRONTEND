@@ -18,3 +18,12 @@ export type AuthUser = {
     createdAt: string,
     updatedAt: string,
 }
+
+export type ChatUser = {
+    _id: string,
+    fullName: string,
+    profilePic: string,
+    email: string,
+    createdAt: string,
+    updatedAt: string
+}

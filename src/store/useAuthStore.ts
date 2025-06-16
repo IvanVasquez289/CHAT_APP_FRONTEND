@@ -15,6 +15,7 @@ type AuthState = {
     login: (data: LoginData) => Promise<void>;
     logout: () => Promise<void>;
     updateProfile: (profilePic: string) => Promise<void>;
+    onlineUsers: string[]
 }
 
 export const useAuthStore = create<AuthState>((set)=> ({
@@ -23,6 +24,7 @@ export const useAuthStore = create<AuthState>((set)=> ({
     isSigningUp: false,
     isLoggingIn: false,
     isUpdatingProfile: false,
+    onlineUsers: [],
     
     checkAuth: async () => {
         try {
