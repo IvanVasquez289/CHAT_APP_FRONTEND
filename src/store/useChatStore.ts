@@ -1,12 +1,12 @@
 import { create } from "zustand";
-import type { ChatUser, MessageData } from "../types";
+import type { ChatUser, Message, MessageData } from "../types";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
 import { axioInstance } from "../lib/axios";
 
 type ChatState = {
     users: ChatUser[],
-    messages: string[],
+    messages: Message[],
     selectedUser: ChatUser | null,
     isUsersLoading: boolean,
     isMessagesLoading: boolean,

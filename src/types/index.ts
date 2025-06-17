@@ -32,3 +32,14 @@ export type MessageData = {
     text?: string, 
     image?: string
 }
+
+export type Message = {
+    _id: string,
+    senderId: string,
+    receiverId: string,
+    text: string,
+    image: string,
+    createdAt: string,
+    updatedAt: string,
+    __v: number
+}
