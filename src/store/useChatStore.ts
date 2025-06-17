@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { ChatUser } from "../types";
+import type { ChatUser, MessageData } from "../types";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
 import { axioInstance } from "../lib/axios";
@@ -12,10 +12,11 @@ type ChatState = {
     isMessagesLoading: boolean,
     getUsers: () => void,
     getMessages : (userId: ChatUser["_id"]) => void,
-    setSelectedUser: (user: ChatUser) => void
+    setSelectedUser: (user: ChatUser | null) => void,
+    sendMessage : (messageData: MessageData) => Promise<void>
 }
 
-export const useChatStore = create<ChatState>((set) => ({
+export const useChatStore = create<ChatState>((set,get) => ({
     users: [],
     messages: [],
     selectedUser: null,
@@ -39,20 +40,33 @@ export const useChatStore = create<ChatState>((set) => ({
     getMessages : async (userId: ChatUser["_id"]) => {
         set({isMessagesLoading: true})
         try {
-            const res = await axioInstance.get(`/messages/${userId}`)
+            const res = await axioInstance.get(`/message/${userId}`)
             set({messages: res.data})
         } catch (error) {
             if(error instanceof AxiosError){
                 toast.error(error.response?.data.message)
-                console.log(error.response?.data.message)
+                console.log(error)
             }
         }finally{
             set({isMessagesLoading: false})
         }
     },
     // TODO: OPTIMIZE LATER
-    setSelectedUser: (user: ChatUser) => {
+    setSelectedUser: (user: ChatUser | null) => {
         set({selectedUser: user})
+    },
+
+    sendMessage: async (messageData: MessageData ) => {
+        const {selectedUser,messages} = get()
+        try {
+            const res = await axioInstance.post(`/message/send/${selectedUser?._id}`, messageData)  
+            set({messages: [...messages, res.data]})  
+        } catch (error) {
+            if(error instanceof AxiosError){
+                toast.error(error.response?.data.message)
+                console.log(error)
+            }
+        }
     }
 
 }))

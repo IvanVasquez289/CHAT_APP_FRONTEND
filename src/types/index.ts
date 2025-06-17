@@ -27,3 +27,8 @@ export type ChatUser = {
     createdAt: string,
     updatedAt: string
 }
+
+export type MessageData = {
+    text?: string, 
+    image?: string
+}
